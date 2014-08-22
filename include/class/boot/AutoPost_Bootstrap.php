@@ -31,19 +31,48 @@ final class AutoPost_Bootstrap {
         // $this->_localize();
         
         // 7. Check requirements.
-        // add_action( 'admin_init', array( $this, '_replyToCheckRequirements' ) );
+        add_action( 'admin_init', array( $this, '_replyToCheckRequirements' ) );
+        
+        // Add the 'Add New' link in the plugin table. 
+        if ( isset( $GLOBALS['pagenow'] ) && 'plugins.php' === $GLOBALS['pagenow'] ) {
+            add_filter( "plugin_action_links_" .  plugin_basename( $this->_sFilePath ), array( $this, '_replyToInsertAddNewLink' ) );
+        }
         
         // 8. Schedule to load plugin specific components.
         add_action( 'task_scheduler_action_after_loading_plugin', array( $this, '_replyToLoadPluginComponents' ) );
                         
     }    
-
+        public function _replyToInsertAddNewLink( $aLinks ) {
+            
+            if ( ! class_exists( 'TaskScheduler_Registry' ) ) {
+                return $aLinks;
+            }
+            $_sHref = add_query_arg( 
+                array( 
+                    'page' => TaskScheduler_Registry::AdminPage_AddNew,
+                ), 
+                admin_url( 'admin.php' ) 
+            );
+            
+            $_sLink = "<a href='{$_sHref}'>" . __( 'Add New', 'auto-post' ) . "</a>";
+            array_unshift( $aLinks, $_sLink ); 
+            return $aLinks;            
+            
+        }
+        
     /**
      * 
      * @since            1.0.0
      */
     public function _replyToCheckRequirements() {
-
+        
+        if ( isset( $GLOBALS['pagenow'] ) && 'plugins.php' !== $GLOBALS['pagenow'] ) {
+            return;
+        }
+        if ( ! class_exists( 'TaskScheduler_Registry' ) ) {
+            add_action( 'admin_notices', array( $this, '_replyToShowAdminNotice' ) );
+        }
+        return;
         new TaskScheduler_Requirements( 
             $this->_sFilePath,
             array(
@@ -59,17 +88,30 @@ final class AutoPost_Bootstrap {
                     // 'version'    =>    '5.5.24',
                     // 'error' => __( 'The plugin requires the MySQL version %1$s or higher.', 'task-scheduler' ),
                 // ),
-                'functions' => array(
-                    'curl_version' => sprintf( __( 'The plugin requires the %1$s to be installed.', 'task-scheduler' ), 'the cURL library' ),
-                ),
-                // 'classes' => array(
-                    // 'DOMDocument' => sprintf( __( 'The plugin requires the <a href="%1$s">libxml</a> extension to be activated.', 'pseudo-image' ), 'http://www.php.net/manual/en/book.libxml.php' ),
+                // 'functions' => array(
+                    // 'curl_version' => sprintf( __( 'The plugin requires the %1$s to be installed.', 'task-scheduler' ), 'the cURL library' ),
                 // ),
+                'classes' => array(
+                    'DOMDocument' => sprintf( __( 'The plugin requires the <a href="%1$s">libxml</a> extension to be activated.', 'pseudo-image' ), 'http://www.php.net/manual/en/book.libxml.php' ),
+                ),
                 'constants'    => array(),
             )
         );    
         
     }
+        /**
+         * Prints an admin warning message.
+         */
+        public function _replyToShowAdminNotice() {
+            
+            echo "<div class='error'>"
+                    . "<p>"
+                        . '<strong>Auto Post</strong>: ' 
+                        . sprintf( __( 'This plugin requires the <a href="%1$s">Task Scheduler</a> plugin.', 'auto-post' ), 'http://wordpress.org/plugins/task-scheduler/' )
+                    . "</p>"
+                . "</div>";
+            
+        }
 
     /**
      * The plugin activation callback method.
