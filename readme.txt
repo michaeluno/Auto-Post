@@ -37,7 +37,8 @@ In that case, just use this plugin to create posts automatically with the preset
 
 == Screenshots ==
 
-1. ***Settings***
+1. ***Wizard Page***
+2. ***Wizard Page 2***
 
 == Changelog ==
 
