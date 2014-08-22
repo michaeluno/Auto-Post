@@ -2,7 +2,7 @@
 /* 
 	Plugin Name:    Auto Post
 	Plugin URI:     http://en.michaeluno.jp/
-	Description:    Creates posts automatically.
+	Description:    Creates posts automatically serving as a Task Scheduler module.
 	Author:         miunosoft (Michael Uno)
 	Author URI:     http://michaeluno.jp
 	Version:        1.0.0b01
@@ -18,7 +18,7 @@ class AutoPost_Registry_Base {
 
 	const Version        = '1.0.0b01';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const Name           = 'Auto Post';
-	const Description    = 'Creates posts automatically.';
+	const Description    = 'Creates posts automatically serving as a Task Scheduler module.';
 	const URI            = 'http://en.michaeluno.jp/';
 	const Author         = 'miunosoft (Michael Uno)';
 	const AuthorURI      = 'http://en.michaeluno.jp/';
@@ -34,7 +34,6 @@ class AutoPost_Registry_Base {
  */
 final class AutoPost_Registry extends AutoPost_Registry_Base {
 	        
-	// The plugin itself uses these values.
 	// const OptionKey                 = 'autopost_option';
 	const TransientPrefix           = 'AP_';    // Up to 8 characters as transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added
 	// const AdminPage_Root            = 'AutoPost_AdminPage';    // the root menu page slug

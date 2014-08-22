@@ -72,31 +72,6 @@ final class AutoPost_Bootstrap {
         if ( ! class_exists( 'TaskScheduler_Registry' ) ) {
             add_action( 'admin_notices', array( $this, '_replyToShowAdminNotice' ) );
         }
-        return;
-        new TaskScheduler_Requirements( 
-            $this->_sFilePath,
-            array(
-                'php' => array(
-                    'version'    =>    AutoPost_Registry::RequiredPHPVersion,
-                    'error'        =>    __( 'The plugin requires the PHP version %1$s or higher.', 'task-scheduler' ),
-                ),
-                'wordpress' => array(
-                    'version'    =>    AutoPost_Registry::RequiredWordPressVersion,
-                    'error'        =>    __( 'The plugin requires the WordPress version %1$s or higher.', 'task-scheduler' ),
-                ),
-                // 'mysql'    =>    array(
-                    // 'version'    =>    '5.5.24',
-                    // 'error' => __( 'The plugin requires the MySQL version %1$s or higher.', 'task-scheduler' ),
-                // ),
-                // 'functions' => array(
-                    // 'curl_version' => sprintf( __( 'The plugin requires the %1$s to be installed.', 'task-scheduler' ), 'the cURL library' ),
-                // ),
-                'classes' => array(
-                    'DOMDocument' => sprintf( __( 'The plugin requires the <a href="%1$s">libxml</a> extension to be activated.', 'pseudo-image' ), 'http://www.php.net/manual/en/book.libxml.php' ),
-                ),
-                'constants'    => array(),
-            )
-        );    
         
     }
         /**

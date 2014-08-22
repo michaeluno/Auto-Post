@@ -7,7 +7,7 @@ Tested up to: 3.9.2
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Creates posts automatically.
+Creates posts automatically serving as a Task Scheduler module.
 
 == Description ==
 
@@ -38,7 +38,6 @@ In that case, just use this plugin to create posts automatically with the preset
 == Screenshots ==
 
 1. ***Settings***
-
 
 == Changelog ==
 
