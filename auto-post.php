@@ -5,7 +5,7 @@
 	Description:    Creates posts automatically serving as a Task Scheduler module.
 	Author:         miunosoft (Michael Uno)
 	Author URI:     http://michaeluno.jp
-	Version:        1.0.0b01
+	Version:        1.0.0
 */
 
 /* 1. Define the base registry class. */
@@ -16,7 +16,7 @@
  */
 class AutoPost_Registry_Base {
 
-	const Version        = '1.0.0b01';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const Version        = '1.0.0';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const Name           = 'Auto Post';
 	const Description    = 'Creates posts automatically serving as a Task Scheduler module.';
 	const URI            = 'http://en.michaeluno.jp/';
