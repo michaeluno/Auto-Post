@@ -75,7 +75,7 @@ final class AutoPost_Action_Wizard extends TaskScheduler_Wizard_Action_Base {
         }
 
     public function validateSettings( $aInput, $aOldInput, $oAdminPage ) { 
-TaskScheduler_Debug::log( $aInput );   
+
         $_bIsValid = true;
         $_aErrors = array();        
     
