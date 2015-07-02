@@ -5,26 +5,24 @@
 	Description:    Creates posts automatically serving as a Task Scheduler module.
 	Author:         miunosoft (Michael Uno)
 	Author URI:     http://michaeluno.jp
-	Version:        1.0.0
+	Version:        1.0.1b01
 */
 
-/* 1. Define the base registry class. */
 /**
  * The base class of the registry class which provides basic plugin information.
  * 
- * The minifier script and the inclusion script also refer to the constants. 
  */
 class AutoPost_Registry_Base {
 
-	const Version        = '1.0.0';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
-	const Name           = 'Auto Post';
-	const Description    = 'Creates posts automatically serving as a Task Scheduler module.';
+	const VERSION        = '1.0.1b01';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const NAME           = 'Auto Post';
+	const DESCRIPTION    = 'Creates posts automatically serving as a Task Scheduler module.';
 	const URI            = 'http://en.michaeluno.jp/';
-	const Author         = 'miunosoft (Michael Uno)';
-	const AuthorURI      = 'http://en.michaeluno.jp/';
-	const Copyright      = 'Copyright (c) 2014, Michael Uno';
-	const License        = 'GPL v2 or later';
-	const Contributors   = '';
+	const AUTHOR         = 'miunosoft (Michael Uno)';
+	const AUTHOR_URI     = 'http://en.michaeluno.jp/';
+	const COPYRIGHT      = 'Copyright (c) 2014, Michael Uno';
+	const LICENSE        = 'GPL v2 or later';
+	const CONTRIBUTORS   = '';
 	
 }
 
@@ -34,16 +32,17 @@ class AutoPost_Registry_Base {
  */
 final class AutoPost_Registry extends AutoPost_Registry_Base {
 	        
-	// const OptionKey                 = 'autopost_option';
-	const TransientPrefix           = 'AP_';    // Up to 8 characters as transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added
-	// const AdminPage_Root            = 'AutoPost_AdminPage';    // the root menu page slug
-	const TextDomain                = 'auto-post';
-	const TextDomainPath            = './language';
-	// const PostType                  = 'autopost';        // up to 20 characters
-	// const Taxonomy_SystemLabel      = 'task_scheduler_system_label';
-	const RequiredPHPVersion        = '5.2.1';
-	const RequiredWordPressVersion  = '3.7';
-	    
+	const TEXT_DOMAIN               = 'auto-post';
+	const TEXT_DOMAIN_PATH          = '/language';            
+          
+    /**
+     * The transient prefix. 
+     * 
+     * @remark      This is also accessed from uninstall.php so do not remove.
+     * @remark      Up to 8 characters as transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added
+     */    
+	const TRANSIENT_PREFIX          = 'AP_';
+    	    
 	// These properties will be defined in the setUp() method.
 	static public $sFilePath = '';
 	static public $sDirPath  = '';
@@ -52,10 +51,8 @@ final class AutoPost_Registry extends AutoPost_Registry_Base {
 	 * Sets up static properties.
 	 */
 	static function setUp( $sPluginFilePath=null ) {
-	                    
 		self::$sFilePath = $sPluginFilePath ? $sPluginFilePath : __FILE__;
 		self::$sDirPath  = dirname( self::$sFilePath );
-	    
 	}    
 	
 	/**

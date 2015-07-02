@@ -27,8 +27,7 @@ final class AutoPost_Bootstrap {
         // 5. Set up deactivation hook.
         // register_deactivation_hook( $this->_sFilePath, array( $this, '_replyToDoWhenPluginDeactivates' ) );
         
-        // 6. Set up localization.
-        // $this->_localize();
+        
         
         // 7. Check requirements.
         add_action( 'admin_init', array( $this, '_replyToCheckRequirements' ) );
@@ -104,18 +103,10 @@ final class AutoPost_Bootstrap {
     private function _localize() {
         
         load_plugin_textdomain( 
-            AutoPost_Registry::TextDomain, 
+            AutoPost_Registry::TEXT_DOMAIN, 
             false, 
-            dirname( plugin_basename( $this->_sFilePath ) ) . '/language/'
-        );
-        
-        if ( $this->_bIsAdmin ) {
-            load_plugin_textdomain( 
-                'admin-page-framework', 
-                false, 
-                dirname( plugin_basename( $this->_sFilePath ) ) . '/language/'
-            );        
-        }
+            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AutoPost_Registry::TEXT_DOMAIN_PATH
+        );        
         
     }        
     
@@ -125,10 +116,13 @@ final class AutoPost_Bootstrap {
      */
     public function _replyToLoadPluginComponents() {
 
-        // 1. Include files.
+        // Necessary Files
         $this->_loadClasses( $this->_sFilePath );
+
+        // Localization
+        $this->_localize();
         
-        // 2. Load the plugin action module
+        // Action Module
         new AutoPost_Action( 
             'auto_post_action_module',    // action slug
             array(  // wizard class names
