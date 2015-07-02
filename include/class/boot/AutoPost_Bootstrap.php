@@ -3,7 +3,7 @@
  * Handles the initial set-up for the plugin.
  *    
  * @package      Auto Post
- * @copyright    Copyright (c) 2014, <Michael Uno>
+ * @copyright    Copyright (c) 2014-2015, Michael Uno
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
  * @since        1.0.0
@@ -105,7 +105,7 @@ final class AutoPost_Bootstrap {
         load_plugin_textdomain( 
             AutoPost_Registry::TEXT_DOMAIN, 
             false, 
-            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AutoPost_Registry::TEXT_DOMAIN_PATH
+            dirname( plugin_basename( $this->_sFilePath ) ) . '/' . AutoPost_Registry::TEXT_DOMAIN_PATH
         );        
         
     }        
