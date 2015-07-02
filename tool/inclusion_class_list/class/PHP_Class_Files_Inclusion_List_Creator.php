@@ -71,7 +71,7 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 	 * 		const URI			= 'http://en.michaeluno.jp/';
 	 * 		const Author		= 'miunosoft (Michael Uno)';
 	 * 		const AuthorURI		= 'http://en.michaeluno.jp/';
-	 * 		const CopyRight		= 'Copyright (c) 2014, <Michael Uno>';
+	 * 		const CopyRight		= 'Copyright (c) 2014-2015, Michael Uno';
 	 * 		const License		= 'GPL v2 or later';
 	 * 		const Contributors	= '';
 	 * }</code>

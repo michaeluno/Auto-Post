@@ -20,7 +20,7 @@ class AutoPost_Registry_Base {
 	const URI            = 'http://en.michaeluno.jp/';
 	const AUTHOR         = 'miunosoft (Michael Uno)';
 	const AUTHOR_URI     = 'http://en.michaeluno.jp/';
-	const COPYRIGHT      = 'Copyright (c) 2014, Michael Uno';
+	const COPYRIGHT      = 'Copyright (c) 2014-2015, Michael Uno';
 	const LICENSE        = 'GPL v2 or later';
 	const CONTRIBUTORS   = '';
 	
