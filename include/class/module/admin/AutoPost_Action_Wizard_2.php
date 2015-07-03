@@ -19,23 +19,38 @@ final class AutoPost_Action_Wizard_2 extends TaskScheduler_Wizard_Action_Base {
     public function getFields() {
 
         $_aWizardOptions = apply_filters( 'task_scheduler_admin_filter_get_wizard_options', array(), $this->sSlug );
+        $_aTaxonomySlugs = array_keys( 
+            TaskScheduler_WPUtility::getTaxonomiesByPostTypeSlug( 
+                isset( $_aWizardOptions['auto_post_post_type'] ) 
+                    ? $_aWizardOptions['auto_post_post_type'] 
+                    : null 
+            )
+        );
+        $_sPostTypeSlug  = isset( $_aWizardOptions[ 'auto_post_post_type' ] ) 
+            ? $_aWizardOptions[ 'auto_post_post_type' ] 
+            : null;
+        $_sPostTypeLabel = TaskScheduler_WPUtility::getPostTypeLabel( 
+            $_sPostTypeSlug
+        );
         return array(
             array(    
                 'field_id'          => 'auto_post_post_type_label',
                 'title'             => __( 'Post Type', 'auto-post' ),
                 'type'              => 'text',
                 'attributes'        => array(
-                    'readonly'  => 'ReadOnly',
+                    'readonly'  => 'readonly',
                     'name'      => '',    // dummy
                 ),
-                'value'             => TaskScheduler_WPUtility::getPostTypeLabel( isset( $_aWizardOptions['auto_post_post_type'] ) ? $_aWizardOptions['auto_post_post_type'] : null ),
+                'value'             => $_sPostTypeLabel
+                    ? $_sPostTypeLabel
+                    : $_sPostTypeSlug,
             ),            
             array(    
                 'field_id'          => 'auto_post_post_status_label',
                 'title'             => __( 'Post Status', 'auto-post' ),
                 'type'              => 'text',
                 'attributes'        => array(
-                    'readonly'  => 'ReadOnly',
+                    'readonly'  => 'readonly',
                     'name'      => '',    // dummy
                 ),                
                 'value'             => $this->_getPostStatusLabel( isset( $_aWizardOptions['auto_post_post_status'] ) ? $_aWizardOptions['auto_post_post_status'] : null ),
@@ -44,7 +59,8 @@ final class AutoPost_Action_Wizard_2 extends TaskScheduler_Wizard_Action_Base {
                 'field_id'          => 'auto_post_term_ids',
                 'title'             => __( 'Terms', 'auto-post' ),
                 'type'              => 'taxonomy',
-                'taxonomy_slugs'    => array_keys( TaskScheduler_WPUtility::getTaxonomiesByPostTypeSlug( isset( $_aWizardOptions['auto_post_post_type'] ) ? $_aWizardOptions['auto_post_post_type'] : null ) )                         
+                'taxonomy_slugs'    => $_aTaxonomySlugs,
+                'if'                => count( $_aTaxonomySlugs ),
             ),         
             array(    
                 'field_id'          => 'auto_post_subject',
@@ -83,11 +99,15 @@ final class AutoPost_Action_Wizard_2 extends TaskScheduler_Wizard_Action_Base {
             $aInput['submit']
             // $aInput['auto_post_post_type']
         );
-        
-// TaskScheduler_Debug::log( $aInput );
+        $aInput = $aInput + array(
+            // The taxonomy ids field can be not set depending on the previous user input.
+            // However, make sure here that the key exists.
+            'auto_post_term_ids' => null, 
+        );
+
         $_bIsValid = true;
         $_bIsValid = false;
-        $_aErrors = array();        
+        $_aErrors  = array();        
             
         if ( ! $_bIsValid ) {
 

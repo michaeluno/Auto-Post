@@ -29,11 +29,23 @@ final class AutoPost_Action_Wizard extends TaskScheduler_Wizard_Action_Base {
     
         return array(
             array(    
-                'field_id'  => 'auto_post_post_type',
-                'title'     => __( 'Post Type', 'auto-post' ),
-                'type'      => 'select',
-                'label'     => TaskScheduler_WPUtility::getRegisteredPostTypeLabels(),
-            ),              
+                'field_id'      => 'auto_post_post_type',
+                'title'         => __( 'Post Type', 'auto-post' ),
+                'type'          => 'select',
+                'label'         => TaskScheduler_WPUtility::getRegisteredPostTypeLabels(),
+            ),
+            array(    
+                'field_id'      => 'auto_post_post_type_custom_slug',
+                'title'         => __( 'Post Type Slug', 'auto-post' ) . ' (' . __( 'optional', 'auto-post' ) . ')',
+                'type'          => 'text',
+                'default'       => '',
+                'description'   => array(
+                    __( 'If you the post type you desire is not listed above, enter the post type slug here. Leave this empty to apply the one listed above.', 'auto-post' ),
+                ),
+                'attributes'    => array(
+                    'size'  => 20,
+                ),
+            ),            
             array(      
                 'field_id'  => 'auto_post_post_status',
                 'title'     => __( 'Post Status', 'auto-post' ),
@@ -79,7 +91,16 @@ final class AutoPost_Action_Wizard extends TaskScheduler_Wizard_Action_Base {
         $_bIsValid = true;
         $_aErrors = array();        
     
-        if ( '[]' === $aInput['auto_post_author'] || ! $aInput['auto_post_author']  ) {
+        $aInput[ 'auto_post_post_type_custom_slug' ] = trim( $this->_getSanitizedURLQueryKey( $aInput[ 'auto_post_post_type_custom_slug' ] ) );
+        if ( 20 < strlen( $aInput[ 'auto_post_post_type_custom_slug' ] ) ) {
+
+            // $aVariable[ 'sectioni_id' ]['field_id']
+            $_aErrors[ $this->_sSectionID ][ 'auto_post_post_type_custom_slug' ] = __( 'The length of the post type slug cannot be more than 20.', 'auto-post' );
+            $_bIsValid = false;            
+            
+        }
+        
+        if ( '[]' === $aInput[ 'auto_post_author' ] || ! $aInput[ 'auto_post_author' ]  ) {
             
             // $aVariable[ 'sectioni_id' ]['field_id']
             $_aErrors[ $this->_sSectionID ][ 'auto_post_author' ] = __( 'An author needs to be set.', 'auto-post' );
@@ -94,10 +115,30 @@ final class AutoPost_Action_Wizard extends TaskScheduler_Wizard_Action_Base {
             $oAdminPage->setSettingNotice( __( 'Please try again.', 'auto-post' ) );
             
         }                    
-        
+    
+        $aInput[ 'auto_post_post_type' ] = $aInput[ 'auto_post_post_type_custom_slug' ]
+            ? $aInput[ 'auto_post_post_type_custom_slug' ] 
+            : $aInput[ 'auto_post_post_type' ];
+    
         return $aInput;
 
     }
     
+    
+    /**
+     * Converts characters not supported to be used in the URL query key to underscore.
+     * 
+     * @see         http://stackoverflow.com/questions/68651/can-i-get-php-to-stop-replacing-characters-in-get-or-post-arrays
+     * @return      string      The sanitized string.
+     */
+    public function _getSanitizedURLQueryKey( $sString ) {
+
+        $_aSearch = array( chr( 32 ), chr( 46 ), chr( 91 ) );
+        for ( $_i=128; $_i <= 159; $_i++ ) {
+            array_push( $_aSearch, chr( $_i ) );
+        }
+        return str_replace ( $_aSearch , '_', $sString );
+        
+    }        
     
 }

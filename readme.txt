@@ -42,5 +42,8 @@ In that case, just use this plugin to create posts automatically with the preset
 
 == Changelog ==
 
+= 1.1.0 =
+- Added the ability to set custom post type slug when a desired post type is not listed.
+
 = 1.0.0 =
-- Released initially.
+- Released.

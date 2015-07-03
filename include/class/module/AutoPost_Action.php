@@ -49,40 +49,44 @@ class AutoPost_Action extends TaskScheduler_Action_Base {
         $_aRoutineArguments   = isset( $_aRoutineMeta[ $this->sSlug ] ) 
             ? $_aRoutineMeta[ $this->sSlug ]
             : array();    // the task specific options(arguments)
-            
+  
         if ( 
             ! isset(    
                 $_aRoutineMeta[ $this->sSlug ],
                 $_aRoutineArguments[ 'auto_post_content' ],
                 $_aRoutineArguments[ 'auto_post_subject' ],
-                $_aRoutineArguments[ 'auto_post_term_ids' ],
                 $_aRoutineArguments[ 'auto_post_post_type' ],
                 $_aRoutineArguments[ 'auto_post_post_status' ],
                 $_aRoutineArguments[ 'auto_post_author' ]
+                // $_aRoutineArguments[ 'auto_post_term_ids' ], // not necessary
             ) 
-        ) {
+        ) {                 
             return 0;    // failed
         }
 
         // the value looks like this: [{"id":1,"name":"admin"}]
-        $_aAuthor = json_decode( 
+        $_aAuthor   = json_decode( 
             $_aRoutineArguments[ 'auto_post_author' ], 
             true 
         );
+        $_iAuthorID = isset( $_aAuthor[ 0 ][ 'id' ] )
+            ? $_aAuthor[ 0 ][ 'id' ]
+            : 1;
                 
         $_iPostID = wp_insert_post(
             array(
                 'post_title'    => $_aRoutineArguments[ 'auto_post_subject' ],
                 'post_content'  => $_aRoutineArguments[ 'auto_post_content' ],
                 'post_status'   => $_aRoutineArguments[ 'auto_post_post_status' ],
-                'post_author'   => $_aAuthor[ 0 ][ 'id' ],
+                'post_author'   => $_iAuthorID,
+                'post_type'     => $_aRoutineArguments[ 'auto_post_post_type' ],
                 
                 // Do not set any taxonomy terms. Note that still 'uncategorized' gets assigned automatically.
                 'tax_input'     => array(),
                 'post_category' => array(),
             )
         );
-
+    
         // For some reasons, the 'tax_input' argument of wp_insert_post() does not take effect when multiple terms are passed.        
         if ( $_iPostID && ! empty( $_aRoutineArguments['auto_post_term_ids'] ) ) {
             $_iIndex = 0;
@@ -98,7 +102,9 @@ class AutoPost_Action extends TaskScheduler_Action_Base {
         }
         
         // Exit code.
-        return $_iPostID ? 1 : 0;
+        return $_iPostID 
+            ? 1 
+            : 0;
         
     }
             
