@@ -1,12 +1,13 @@
 === Auto Post ===
-Contributors: Michael Uno, miunosoft
-Donate link: http://en.michaeluno.jp/donate
-Tags: auto post, post, posts, automation, automatic, task scheduler, module, action, task, event, management, utility, tool
-Requires at least: 3.7
-Tested up to: 3.9.2
-Stable tag: 1.0.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Contributors:       Michael Uno, miunosoft
+Donate link:        http://en.michaeluno.jp/donate
+Tags:               auto post, post, posts, automation, automatic, task scheduler, module, action, task, event, management, utility, tool
+Requires at least:  3.7
+Tested up to:       4.2.2
+Stable tag:         1.0.0
+License:            GPLv2 or later
+License URI:        http://www.gnu.org/licenses/gpl-2.0.html
+
 Creates posts automatically serving as a Task Scheduler module.
 
 == Description ==
@@ -42,7 +43,8 @@ In that case, just use this plugin to create posts automatically with the preset
 
 == Changelog ==
 
-= 1.1.0 =
+= 1.1.0 - 07/03/2015 =
+- Added the ability to set custom fields (post meta) (requires Task Scheduler 1.0.2 or above).
 - Added the ability to set custom post type slug when a desired post type is not listed.
 
 = 1.0.0 =

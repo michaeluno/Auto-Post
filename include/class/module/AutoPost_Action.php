@@ -101,11 +101,45 @@ class AutoPost_Action extends TaskScheduler_Action_Base {
             }
         }
         
+        // Post meta
+        if ( 
+            isset( $_aRoutineArguments[ 'auto_post_post_meta' ] ) 
+            && is_array( $_aRoutineArguments[ 'auto_post_post_meta' ] )
+        ) {
+            $this->_insertPostMeta( 
+                $_iPostID, 
+                $_aRoutineArguments[ 'auto_post_post_meta' ]
+            );
+        }
+        
         // Exit code.
         return $_iPostID 
             ? 1 
             : 0;
         
     }
+    
+        /**
+         * Updates post meta data.
+         * 
+         * @since       1.1.0
+         */
+        private function _insertPostMeta( $iPostID, array $aPostData ) {
+            foreach( $aPostData as $_aKeyValue ) {
+                if ( 
+                    ! isset( 
+                        $_aKeyValue[ 'key' ],
+                        $_aKeyValue[ 'value' ]
+                    )
+                ) {
+                    continue;
+                }
+                update_post_meta( 
+                    $iPostID, 
+                    $_aKeyValue[ 'key' ],  
+                    $_aKeyValue[ 'value' ]
+                );
+            }
+        }
             
 }

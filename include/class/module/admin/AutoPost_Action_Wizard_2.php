@@ -76,7 +76,21 @@ final class AutoPost_Action_Wizard_2 extends TaskScheduler_Wizard_Action_Base {
                 'title'             => __( 'Post Content', 'auto-post' ),
                 'type'              => 'textarea',
                 'rich'              => true,
-            ),                                                
+            ),
+            array(    
+                'field_id'          => 'auto_post_post_meta',
+                'title'             => __( 'Post Meta', 'auto-post' ),
+                'type'              => 'text',
+                'label'             => array(
+                    'key'     =>  __( 'Key', 'auto-post' ),
+                    'value'   =>  __( 'Value', 'auto-post' ),
+                ),
+                'repeatable'        => true,
+                'description'       => __( 'Set key-values of post meta data (custom fields).', 'auto-post' ),
+                'if'                => class_exists( 'TaskScheduler_Registry' ) 
+                    && version_compare( TaskScheduler_Registry::VERSION, '1.0.2b' ) >= 0
+                    
+            ),            
         );
         
     }    
