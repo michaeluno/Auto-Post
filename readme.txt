@@ -46,6 +46,7 @@ In that case, just use this plugin to create posts automatically with the preset
 = 1.1.0 - 07/03/2015 =
 - Added the ability to set custom fields (post meta) (requires Task Scheduler 1.0.2 or above).
 - Added the ability to set custom post type slug when a desired post type is not listed.
+- Fixed an issue that post type could not be set.
 
 = 1.0.0 =
 - Released.
