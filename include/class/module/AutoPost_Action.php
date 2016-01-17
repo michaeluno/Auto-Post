@@ -58,7 +58,7 @@ class AutoPost_Action extends TaskScheduler_Action_Base {
         $_iAuthorID = $this->_getAuthorID( $_aRoutineArguments );
 
         // Create post
-        $_iPostID = $this->_createPost( $_iAuthorID, $_aRoutineArguments );
+        $_iPostID = $this->_createPost( $_iAuthorID, $_aRoutineArguments, $oRoutine );
 
         // Add taxonomy terms
         $this->_addTaxonomyTerms( $_iPostID, $_aRoutineArguments );
@@ -70,7 +70,9 @@ class AutoPost_Action extends TaskScheduler_Action_Base {
         ) {
             $this->_insertPostMeta( 
                 $_iPostID, 
-                $_aRoutineArguments[ 'auto_post_post_meta' ]
+                $_aRoutineArguments[ 'auto_post_post_meta' ],
+                $_aRoutineArguments,
+                $oRoutine
             );
         }
         
@@ -124,13 +126,20 @@ class AutoPost_Action extends TaskScheduler_Action_Base {
          * @since       1.2.0
          * @return      integer
          */
-        private function _createPost( $iAuthorID, array $aArguments ) {
+        private function _createPost( $iAuthorID, array $aArguments, $oRoutine ) {
             
             return ( integer ) wp_insert_post(
                 array(
-                
-                    'post_title'    => $aArguments[ 'auto_post_subject' ],
-                    'post_content'  => $aArguments[ 'auto_post_content' ],
+                    'post_title'    => $this->_getVariblesReplaced( 
+                        $aArguments[ 'auto_post_subject' ], 
+                        $aArguments,
+                        $oRoutine
+                    ),
+                    'post_content'  => $this->_getVariblesReplaced( 
+                        $aArguments[ 'auto_post_content' ], 
+                        $aArguments,
+                        $oRoutine
+                    ),
                     'post_status'   => $aArguments[ 'auto_post_post_status' ],
                     'post_author'   => $iAuthorID,
                     'post_type'     => $aArguments[ 'auto_post_post_type' ],
@@ -177,7 +186,7 @@ class AutoPost_Action extends TaskScheduler_Action_Base {
          * 
          * @since       1.1.0
          */
-        private function _insertPostMeta( $iPostID, array $aPostData ) {
+        private function _insertPostMeta( $iPostID, array $aPostData, array $aArguments, $oRoutine ) {
             foreach( $aPostData as $_aKeyValue ) {
                 if ( 
                     ! isset( 
@@ -187,12 +196,47 @@ class AutoPost_Action extends TaskScheduler_Action_Base {
                 ) {
                     continue;
                 }
+                if ( ! $_aKeyValue[ 'key' ] ) {
+                    continue;
+                }
                 update_post_meta( 
                     $iPostID, 
                     $_aKeyValue[ 'key' ],  
-                    $_aKeyValue[ 'value' ]
+                    $this->_getVariblesReplaced( 
+                        $_aKeyValue[ 'value' ], 
+                        $aArguments,
+                        $oRoutine
+                    )
                 );
             }
+        }
+        
+        /**
+         * Replaces variables with a value in a given string.
+         * @return      string
+         * @since       1.2.0
+         */
+        private function _getVariblesReplaced( $sString, array $aArguments, $oRoutine ) {
+            
+            $_sDateFormat = isset( $aArguments[ 'auto_post_date_format' ] )
+                ? $aArguments[ 'auto_post_date_format' ]
+                : get_option( 'date_format' );
+            $_sTimeFormat = isset( $aArguments[ 'auto_post_time_format' ] )
+                ? $aArguments[ 'auto_post_time_format' ]
+                : get_option( 'time_format' );
+            
+            return str_replace(
+                array(  // search
+                    '%date%',
+                    '%time%',
+                ), 
+                array(  // replace
+                    $oRoutine->getReadableTime( time(), $_sDateFormat, true ),
+                    $oRoutine->getReadableTime( time(), $_sTimeFormat, true ),
+                ),
+                $sString // subject
+            );
+            
         }
             
 }

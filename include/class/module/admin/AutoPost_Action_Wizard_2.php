@@ -90,6 +90,46 @@ final class AutoPost_Action_Wizard_2 extends TaskScheduler_Wizard_Action_Base {
                 'if'                => class_exists( 'TaskScheduler_Registry' ) 
                     && version_compare( TaskScheduler_Registry::VERSION, '1.0.2b' ) >= 0
                     
+            ), 
+            array(
+                'field_id'          => '__description',
+                'type'              => '__description',
+                'title'             => __( 'Variables', 'auto-post' ),
+                // 'show_title_column' => false,
+                'before_field'      => "<p>"
+                        . sprintf(
+                            __( 'The following variables are available for the <strong>%1$s</strong>, <strong>%2$s</strong>, and <strong>%3$s</strong> options.', 'auto-post' ),
+                            __(  'Subject' ),
+                            __(  'Post Content' ),
+                            __(  'Post Meta - value' )
+                        )
+                    . "</p>"
+                    . "<p>"
+                        . "<code>%date%</code>" . ' - ' . __( 'the creation date', 'auto-post' )
+                    . "</p>"
+                    . "<p>"
+                        . "<code>%time%</code>" . ' - ' . __( 'the creation time', 'auto-post' )
+                    . "</p>"
+                
+            ),            
+            array(
+                'field_id'          => 'auto_post_date_format',
+                'title'             => __( 'Date Format', 'auto-post' ),
+                'type'              => 'text',
+                'default'           => get_option( 'date_format' ),
+                'description'       => 'e.g. <code>Y-m-d</code>', 
+            ),
+            array(
+                'field_id'          => 'auto_post_time_format',
+                'title'             => __( 'Time Format', 'auto-post' ),
+                'type'              => 'text',
+                'default'           => get_option( 'time_format' ),
+                'description'       => array(
+                    'e.g. <code>H:i:s</code>',
+                    "<a href='https://codex.wordpress.org/Formatting_Date_and_Time' target='_blank'>"
+                        . __( 'See more details for the date and time format.', 'auto-post' )
+                    . "</a>",
+                ),
             ),            
         );
         
