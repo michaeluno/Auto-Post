@@ -1,12 +1,12 @@
 <?php
-/* 
-	Plugin Name:    Auto Post
-	Plugin URI:     http://en.michaeluno.jp/
-	Description:    Creates posts automatically serving as a Task Scheduler module.
-	Author:         miunosoft (Michael Uno)
-	Author URI:     http://michaeluno.jp
-	Version:        1.1.0
-*/
+/** 
+ *	Plugin Name:    Auto Post
+ *  Plugin URI:     http://en.michaeluno.jp/
+ *  Description:    Creates posts automatically serving as a Task Scheduler module.
+ *  Author:         miunosoft (Michael Uno)
+ *  Author URI:     http://michaeluno.jp
+ *  Version:        1.2.0b01
+ */
 
 /**
  * The base class of the registry class which provides basic plugin information.
@@ -14,7 +14,7 @@
  */
 class AutoPost_Registry_Base {
 
-	const VERSION        = '1.1.0';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const VERSION        = '1.2.0b01';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const NAME           = 'Auto Post';
 	const DESCRIPTION    = 'Creates posts automatically serving as a Task Scheduler module.';
 	const URI            = 'http://en.michaeluno.jp/';
@@ -50,8 +50,8 @@ final class AutoPost_Registry extends AutoPost_Registry_Base {
 	/**
 	 * Sets up static properties.
 	 */
-	static function setUp( $sPluginFilePath=null ) {
-		self::$sFilePath = $sPluginFilePath ? $sPluginFilePath : __FILE__;
+	static function setUp( $sPluginFilePath ) {
+		self::$sFilePath = $sPluginFilePath;
 		self::$sDirPath  = dirname( self::$sFilePath );
 	}    
 	
@@ -67,9 +67,11 @@ final class AutoPost_Registry extends AutoPost_Registry_Base {
 }
  
 // Return if accessed directly. Do not exit as the header class for the inclusion script need to access the registry class.
-if ( ! defined( 'ABSPATH' ) ) { return; }
+if ( ! defined( 'ABSPATH' ) ) { 
+    return; 
+}
 AutoPost_Registry::setUp( __FILE__ );
 
 /* 3. Perform the bootstrap. */
-include( dirname( __FILE__ ) . '/include/class/boot/AutoPost_Bootstrap.php' );    
+include( dirname( __FILE__ ) . '/include/class/AutoPost_Bootstrap.php' );    
 new AutoPost_Bootstrap( __FILE__ );

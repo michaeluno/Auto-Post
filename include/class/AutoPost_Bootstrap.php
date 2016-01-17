@@ -15,7 +15,7 @@
  */
 final class AutoPost_Bootstrap {
     
-    function __construct( $sPluginFilePath ) {
+    public function __construct( $sPluginFilePath ) {
         
         // 0. The class properties.
         $this->_sFilePath = $sPluginFilePath;
@@ -26,14 +26,12 @@ final class AutoPost_Bootstrap {
         
         // 5. Set up deactivation hook.
         // register_deactivation_hook( $this->_sFilePath, array( $this, '_replyToDoWhenPluginDeactivates' ) );
-        
-        
-        
+
         // 7. Check requirements.
         add_action( 'admin_init', array( $this, '_replyToCheckRequirements' ) );
         
         // Add the 'Add New' link in the plugin table. 
-        if ( isset( $GLOBALS['pagenow'] ) && 'plugins.php' === $GLOBALS['pagenow'] ) {
+        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'plugins.php' === $GLOBALS[ 'pagenow' ] ) {
             add_filter( "plugin_action_links_" .  plugin_basename( $this->_sFilePath ), array( $this, '_replyToInsertAddNewLink' ) );
         }
         
@@ -65,7 +63,7 @@ final class AutoPost_Bootstrap {
      */
     public function _replyToCheckRequirements() {
         
-        if ( isset( $GLOBALS['pagenow'] ) && 'plugins.php' !== $GLOBALS['pagenow'] ) {
+        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'plugins.php' !== $GLOBALS[ 'pagenow' ] ) {
             return;
         }
         if ( ! class_exists( 'TaskScheduler_Registry' ) ) {
@@ -141,7 +139,7 @@ final class AutoPost_Bootstrap {
                 
         // Include the include lists and register classes.
         $_aClassFiles        = array();
-        include( dirname( $sFilePath ) . '/include/auto-post-include-class-file-list.php' );
+        include( dirname( $sFilePath ) . '/include/class-list.php' );
         new TaskScheduler_AutoLoad( array(), array(), $_aClassFiles );    
                         
     }  
