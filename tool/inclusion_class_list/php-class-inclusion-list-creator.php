@@ -2,12 +2,14 @@
 
 /* Configuration */
 $sTargetBaseDir		= dirname( dirname( dirname( __FILE__ ) ) );
-$sResultFilePath	= $sTargetBaseDir . '/include/auto-post-include-class-file-list.php';
+$sResultFilePath	= $sTargetBaseDir . '/include/class-list.php';
 
 /* If accessed from a browser, exit. */
 $bIsCLI				= php_sapi_name() == 'cli';
 $sCarriageReturn	= $bIsCLI ? PHP_EOL : '<br />';
-if ( ! $bIsCLI ) { exit; }
+if ( ! $bIsCLI ) { 
+    exit; 
+}
 
 /* Include necessary files */
 require( dirname( __FILE__ ) . '/class/PHP_Class_Files_Inclusion_List_Creator.php' );
