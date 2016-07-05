@@ -3,7 +3,7 @@ Contributors:       Michael Uno, miunosoft
 Donate link:        http://en.michaeluno.jp/donate
 Tags:               auto post, post, posts, automation, automatic, task scheduler, module, action, task, event, management, utility, tool
 Requires at least:  3.7
-Tested up to:       4.4.1
+Tested up to:       4.5.3
 Stable tag:         1.2.0
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
@@ -43,6 +43,9 @@ In that case, just use this plugin to create posts automatically with the preset
 2. ***Wizard Page 2***
 
 == Changelog ==
+
+= 1.2.1 =
+- Fixed a notice of using a deprecated function.
 
 = 1.2.0 - 01/18/2016 =
 - Added the `%date%` and `%time%` variables so that the creation date and time can be inserted in the post.

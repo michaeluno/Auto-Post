@@ -23,9 +23,9 @@ final class AutoPost_Action_Wizard extends TaskScheduler_Wizard_Action_Base {
      */ 
     public function getFields() {
 
-        // The call to get_currentuserinfo() places the current user's info into $current_user.
+        // Sets the `$current_user` if not set.
         global $current_user;
-        get_currentuserinfo();    
+        wp_get_current_user();
     
         return array(
             array(    
