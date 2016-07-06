@@ -4,7 +4,7 @@ Donate link:        http://en.michaeluno.jp/donate
 Tags:               auto post, post, posts, automation, automatic, task scheduler, module, action, task, event, management, utility, tool
 Requires at least:  3.7
 Tested up to:       4.5.3
-Stable tag:         1.2.0
+Stable tag:         1.2.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,7 +44,7 @@ In that case, just use this plugin to create posts automatically with the preset
 
 == Changelog ==
 
-= 1.2.1 =
+= 1.2.1 - 07/06/2016 =
 - Fixed a notice of using a deprecated function.
 
 = 1.2.0 - 01/18/2016 =
